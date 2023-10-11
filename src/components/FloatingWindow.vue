@@ -96,69 +96,13 @@ export default {
         this.showFloatingWindowjoin = false;
       } 
     },
-    startDragging(event) {
-      this.dragging = true;
-      this.mouseX = event.clientX;
-      this.mouseY = event.clientY;
-      this.windowX = event.currentTarget.offsetLeft;
-      this.windowY = event.currentTarget.offsetTop;
-      event.currentTarget.style.zIndex = this.getHigestZIndex()+1;
-    },
-    stopDragging(event) {
-      this.dragging = false;
-    },
-    dragWindow(event) {
-      if (this.dragging) {
-        const deltaX = event.clientX - this.mouseX;
-        const deltaY = event.clientY - this.mouseY;
-        
-        // 计算新的位置
-        const newWindowX = this.windowX + deltaX;
-        const newWindowY = this.windowY + deltaY;
-        
-        // 设置新的位置
-        event.currentTarget.style.left = `${newWindowX}px`;
-        event.currentTarget.style.top = `${newWindowY}px`;
-        this.floatingWindowjoin.style.left = `${newWindowX}px`;
-        this.floatingWindowjoin.style.top = `${newWindowY}px`;
-      }
-    },
-    // 获取当前最高层级
-    getHighestZIndex() {
-      const windows = Array.from(document.getElementsByClassName('floating-window'));
-      let highestZIndex = 0;
-      
-      windows.forEach(window => {
-        const zIndex = parseInt(window.style.zIndex);
-        if (zIndex > highestZIndex) {
-          highestZIndex = zIndex;
-        }
-      });
-      
-      return highestZIndex;
-    },
-  },
-  mounted() {
-    this.floatingWindowset = this.$refs.floatingwindowset;
-    this.floatingWindowjoin = this.$refs.floatingwindowjoin;
-    document.addEventListener('mouseup', this.stopDragging);
-    document.addEventListener('mousemove', this.dragWindow);
-  },
-  beforeDestroy(){
-    document.removeEventListener('mouseup', this.stopDragging);
-    document.removeEventListener('mousemove', this.dragWindow);
+
   },
 };
 </script>
 
 <style>
-body {
-  background: url("./background.png") no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 
 .close-btn{
   position: absolute;

@@ -1,6 +1,6 @@
 import request from "./request";
 
-export default class searchteam{
+export default class teamSearch{
     static async getTeamInformation(data:{
         name:string,
         }):Promise<any> {

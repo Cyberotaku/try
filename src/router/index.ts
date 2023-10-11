@@ -12,15 +12,15 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('@/pages/home.vue'),
   },
   {
-    path:'/vue1',
-    name:'vue1',
-    component:()=>import('@/components/vue1.vue'),
+    path:'/Login',
+    name:'Login',
+    component:()=>import('@/pages/Login.vue'),
   },
   {
-    path:'/vue2',
-    name:'vue2',
-    component:()=>import('@/components/vue2.vue'),
-  },
+    path:'/Show',
+    name:'Show',
+    component:()=>import('@/pages/Show.vue'),
+  }
 ]
 
 const router = createRouter({

@@ -37,12 +37,23 @@ export default {
   methods: {
     handleSelect(index) {
       this.activeIndex = index
+      switch (index) {
+        case '0-1':
+          this.$router.push('/Show')
+          break;
+        case '0-2':
+          this.$router.push('/Login')
+          break;
+        default:
+          break;
+      }
     },
   },
 }
 </script>
 
 <style scoped>
+
 .flex-grow {
   flex-grow: 2;
 }

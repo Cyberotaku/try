@@ -1,8 +1,9 @@
 <template>
     <div class="left-area">
-      <h2>队友列表：</h2>
+      <h2>团队成员：</h2>
+      <p>data.leader_id</p>
       <ul>
-        <li v-for="member in teammate" :key="member">{{ member }}</li>
+        <li v-for="member in data.teammate" :key="member">{{ member }}    队员</li>
       </ul>
     </div>
   </template>
