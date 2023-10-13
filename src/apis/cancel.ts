@@ -1,15 +1,15 @@
 import request from "./request";
 
-export default class teamSearch{
-    static async getTeamInformation(data:{
-        UserAccount:string,
+export default class quxiaobaoming{
+    static async cancelSign(data:{
+        team_name:string,
         }):Promise<any> {
         return request({
             "headers":{
                 "Content-Type":"application/json",
             },
-            method:"get",
-            url:"api/teaminformation",
+            method:"del",
+            url:"api/team/appliciation",
             data:data,
         });
     }

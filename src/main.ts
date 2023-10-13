@@ -10,11 +10,12 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";//国际化
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import{faTimes} from '@fortawesome/free-solid-svg-icons'
-import { createPinia } from 'pinia'
+// import { createPinia } from 'pinia'
+import pinia from './stores';
 
 const app =createApp(App);
 // 实例化 Pinia
-const pinia = createPinia()
+// const pinia = createPinia()
 
 library.add(faTimes)
 app.component('font-awesome-icon', FontAwesomeIcon)

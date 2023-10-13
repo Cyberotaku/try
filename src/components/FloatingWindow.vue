@@ -16,10 +16,6 @@
         <input type="text" v-model="name">
         <br>
 
-        <label>团队编号：</label>
-        <input type ="text" v-model="num1">
-        <br>
-
         <label>密码：</label>
         <input type ="text" v-model="mm1">
         <br>
@@ -48,7 +44,7 @@
       </button>
       <h2>加入</h2>
       <form @submit.prevent="submitForm">
-        <label>团队编号：</label>
+        <label>团队名称：</label>
         <input type ="text" v-model="num2">
         <br>
 
@@ -94,7 +90,7 @@ export default {
       }
       else if (Window === 'Window2'){
         this.showFloatingWindowjoin = false;
-      } 
+      }
     },
 
   },

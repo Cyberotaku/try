@@ -1,8 +1,9 @@
 <template>
     <div>
       <Touter  />
-      <Team v-if="code=200"/>
-      <FloatingWindow v-if="code=220"/>
+      <teamControl/>
+      <Team v-if="res.code==85"/>
+      <FloatingWindow v-if="res.code==200"/>
     </div>
 </template>
   
@@ -12,20 +13,53 @@ import FloatingWindow from '../components/FloatingWindow.vue';
 import {ref,h} from 'vue';
 import searchTeam from '../apis/searchTeam.ts';
 import Team from '../components/Team.vue';
-  
-const getTeamInformation =async()=>{
-  const teanInfo =ref({
-    name:userName
-  });
+import{storeToRefs} from 'pinia';
+import {useTeamStore} from '../stores/teamStore.ts';
+import teamControl from '@/components/teamControl.vue';
+import signup from '@/components/signUp.vue';
 
-  const res = await searchTeam.teamSearch(teanInfo);  //将其设置为全局变量
-}
 
   export default {
+    data(){
+      return{
+        res:{
+          code:200,
+          data:{
+            team_name:"",
+            leader_name:"",
+            TeamMember:[],
+          }
+        }
+      }
+    },
     components: {
       Touter,
       FloatingWindow,
+      teamControl,
     },
+    setup() {
+      const teamstore=useTeamStore()
+      const username="Asuna"  //暂拟为亚总
+
+      const getTeamInformation =async()=>{
+        const teamInfo =ref({
+          UserAccount:username   //从login中传的值
+        }).value;
+
+        const res = await searchTeam.teamSearch();  //将其设置为全局变量
+        if (res.code==85){
+          const teamstore = useTeamStore();
+          teamstore.username =username;
+          teamstore.teamleader =ref.data.leader_name;
+          teamstore.teamname =ref.data.team_name;
+          for (const mate of ref.data.member){
+            teamstore.members.push(mate);
+          }
+      }
+      }
+
+
+    }
 
   };
   </script>

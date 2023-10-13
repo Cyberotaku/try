@@ -32,7 +32,7 @@ import loginStore from "../stores/loginStore.ts";
 import userStore from "../stores/userStore.ts";
 import {ElNotification} from "element-plus";
 import router from "../router";
-import administratorStore from "../stores/administratorStore.ts";
+// import administratorStore from "../stores/administratorStore.ts";
 
 const input = ref("");
 const password = ref("");
@@ -99,10 +99,10 @@ const clear = () => {
   input.value = "";
   password.value = "";
 };
-// const administratordata = ref(false);
-// const administratorVerify = () => {
-//     administratordata.value = true;
-// };
+const administratordata = ref(false);
+const administratorVerify = () => {
+    administratordata.value = true;
+};
 
 </script>
 

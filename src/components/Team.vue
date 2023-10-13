@@ -1,15 +1,22 @@
 <template>
     <div class="left-area">
-      <h2>团队成员：</h2>
-      <p>data.leader_id</p>
+      <h3>团队成员：</h3>
+      <br><br>
+      <h1>队长：</h1>
+      <p>{{teamstore.teamleader}}</p>
+      <br>
+      <h1>队员：</h1>
       <ul>
-        <li v-for="member in data.teammate" :key="member">{{ member }}    队员</li>
+        <li v-for="member in teamstore.members" :key="member">{{ member }} </li>
       </ul>
     </div>
   </template>
   
-  <script>
+  <script >
+  import { useTeamStore} from '@/stores/teamStore.ts'
+  const teamstore = useTeamStore();
   export default {
+
     props: {
       teammate: {
         type: Array,
