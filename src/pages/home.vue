@@ -17,13 +17,14 @@ import teamControl from '@/components/teamControl.vue';
 import signup from '@/components/signUp.vue';
 import memberInfo from '@/components/memberInfo.vue';
 import quit from '@/components/quit.vue'
-import {userStore} from "@/stores/userStore.ts";
+import userStore from "@/stores/userStore.ts";
 import signUp from "@/components/signUp.vue"
 //记得引用要渲染的组件
 import {ref,h} from 'vue';
-import storeToRefs from 'pinia';
+import {storeToRefs} from 'pinia';
 import {useTeamStore} from '../stores/teamStore.ts';
 import unionService from '../apis/unionService.ts'; 
+console.log(userStore.userSession);
 
 export default {
   components: {
@@ -41,24 +42,27 @@ export default {
         TeamMember: [],
       }
     });
-
-    const account = userStore.userSession.account; 
+    const account = userStore.userSession?.account ?? '';
     const username = userStore.userSession.username;
     const teamstore = useTeamStore();
     teamstore.account = account;  
+    const resData = ref(null); // 改动1：将 resData 定义为 ref 对象
+
     const search = async () => {
       const Info = ref({
         account: account 
       });
 
-      const resData = await unionService.teamInformation(Info); 
+      resData.value = await unionService.teamInformation(Info); // 改动2：将 resData 赋值为请求返回值
     }
-    if (resData.code == 85) {
-        teamstore.username = resData.data.username;
-        teamstore.teamleader = resData.data.leader_name;
-        teamstore.teamname = resData.data.team_name;
-        teamstore.password = resData.data.password;
-        for (const mate of resData.data.member) {
+
+    // 下面的代码需要放在 search 函数之后执行
+    if (resData.value !== null && resData.value.code == 85) { // 改动3：增加判断 resData 是否非空
+        teamstore.username = resData.value.data.username;
+        teamstore.teamleader = resData.value.data.leader_name;
+        teamstore.teamname = resData.value.data.team_name;
+        teamstore.password = resData.value.data.password;
+        for (const mate of resData.value.data.member) {
           teamstore.members.push(mate);
         }
     }
@@ -67,13 +71,13 @@ export default {
       res,
       username,
       search,
-      resData,
+      resData, // 增加 resData 的输出
       teamstore,
       account,
     };
   } 
 }
-  </script>
+</script>
 
 <style>
   body {
