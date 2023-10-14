@@ -11,8 +11,8 @@ export default class baoming{
                 "Content-Type":"application/json",
             },
             method:"post",
-            url:"jointeam",
+            url:"api/team/appliciation",
             data:data,
         });
     }
-}  //用于团队报名
+}  //用于用户的加入团队

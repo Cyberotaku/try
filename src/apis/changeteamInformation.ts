@@ -1,18 +1,20 @@
 import request from "./request";
 
-export default class baoming{
-    static async signUp(data:{
-        team_name:string,
+export default class changeInfo{
+    static async kickperson(data:{
         password:string,
-        user_account:string,
+        repassword:string,
+        team_name:string,
+        number:number,
+        originteamname:string,
         }):Promise<any> {
         return request({
             "headers":{
                 "Content-Type":"application/json",
             },
-            method:"post",
-            url:"jointeam",
+            method:"put",
+            url:"team/update",
             data:data,
         });
     }
-}  //用于团队报名
+}  

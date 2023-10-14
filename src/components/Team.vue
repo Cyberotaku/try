@@ -13,7 +13,7 @@
   </template>
   
   <script >
-  import { useTeamStore} from '@/stores/teamStore.ts'
+  import  {useTeamStore} from '@/stores/teamStore.ts'
   const teamstore = useTeamStore();
   export default {
 

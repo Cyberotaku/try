@@ -1,55 +1,26 @@
 <template>
-  <div class="floating-btn-wrapper-set" >
+  <div class="floating-btn-wrapper-set">
     <button class="floating-btn1" @click="toggleFloatingWindow('Window1')">
-      <i class="set-team"></i> <!-- 已经存在的图标 -->
+      <i class="set-team"></i>
       <span>创建团队</span>
     </button>
-    
-    <div v-show="showFloatingWindowset" class="floating-window" ref="floatingwindowset" @mousedown="startDragging">
-      <!-- 悬浮窗的内容 -->
+
+    <div v-show="showFloatingWindow === 'Window1'" class="floating-window" ref="floatingwindowset" @mousedown="startDragging">
       <button class="close-btn" @click="closeFloatingWindow('Window1')">
         <font-awesome-icon icon="times"></font-awesome-icon>
       </button>
       <h2>创建</h2>
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="submitForm('Window1')">
         <label>团队名称：</label>
-        <input type="text" v-model="name">
+        <input type="text" v-model="team.name">
         <br>
 
         <label>密码：</label>
-        <input type ="text" v-model="mm1">
+        <input type ="password" v-model="team.password">
         <br>
 
         <label>确认密码：</label>
-        <input type="text" v-model="mm2">
-        <br><br>
-
-        <button type="submit">提交</button>
-
-      </form>
-    </div>
-  </div> 
-
-
-  <div class="floating-btn-wrapper-join">
-    <button class="floating-btn2" @click="toggleFloatingWindow('Window2')">
-      <i class="join-team"></i> <!-- 已经存在的图标 -->
-      <span>加入团队</span>
-    </button>
-    
-    <div v-show="showFloatingWindowjoin" class="floating-window" ref="floatingwindowjoin" @mousedown="startDragging">
-      <!-- 悬浮窗的内容 -->
-      <button class="close-btn" @click="closeFloatingWindow('Window2')">
-        <font-awesome-icon icon="times"></font-awesome-icon>
-      </button>
-      <h2>加入</h2>
-      <form @submit.prevent="submitForm">
-        <label>团队名称：</label>
-        <input type ="text" v-model="num2">
-        <br>
-
-        <label>密码：</label>
-        <input type ="text" v-model="mm3">
+        <input type="password" v-model="confirmPassword">
         <br><br>
 
         <button type="submit">提交</button>
@@ -57,50 +28,99 @@
     </div>
   </div>
 
+
+  <div class="floating-btn-wrapper-join">
+    <button class="floating-btn2" @click="toggleFloatingWindow('Window2')">
+      <i class="join-team"></i>
+      <span>加入团队</span>
+    </button>
+
+    <div v-show="showFloatingWindow === 'Window2'" class="floating-window" ref="floatingwindowjoin" @mousedown="startDragging">
+      <button class="close-btn" @click="closeFloatingWindow('Window2')">
+        <font-awesome-icon icon="times"></font-awesome-icon>
+      </button>
+      <h2>加入</h2>
+      <form @submit.prevent="submitForm('Window2')">
+        <label>团队名称：</label>
+        <input type ="text" v-model="team.name">
+        <br>
+
+        <label>密码：</label>
+        <input type ="password" v-model="team.password">
+        <br><br>
+
+        <button type="submit">提交</button>
+      </form>
+    </div>
+  </div>
 </template>
 
-<script >
-export default {
-  data() {
-    return {
-      showFloatingWindowset: false ,// 控制悬浮窗的显示与隐藏
-      showFloatingWindowjoin:false,
-      dragging : false,
-      mouseX: 0,
-      mouseY: 0,
-      windowX: 0,
-      windowY: 0,
-    };
-  },
-  methods: {
-    toggleFloatingWindow(Window) {
-      if (Window === 'Window1') {
-        this.showFloatingWindowjoin = false;
-        this.showFloatingWindowset = !this.showFloatingWindowset;
-      }
-      else{
-        this.showFloatingWindowset = false;
-        this.showFloatingWindowjoin =!this.showFloatingWindowjoin;
-      }
-      // this.showFloatingWindow = !this.showFloatingWindow; // 切换悬浮窗的显示与隐藏状态
-    },
-    closeFloatingWindow(Window){
-      if (Window === 'Window1'){
-        this.showFloatingWindowset = false;
-      }
-      else if (Window === 'Window2'){
-        this.showFloatingWindowjoin = false;
-      }
-    },
+<script>
+import { ref } from 'vue';
+import {useTeamStore} from '../stores/teamStore.ts';
+import unionService from '../apis/unionService.ts';
 
+export default {
+  setup() {
+    const showFloatingWindow = ref(null);
+    const team = useTeamStore.useTeamStore;
+    const confirmPassword = ref('');
+
+    function toggleFloatingWindow(windowName) {
+      if (showFloatingWindow.value === windowName) {
+        showFloatingWindow.value = null;
+      } else {
+        showFloatingWindow.value = windowName;
+      }
+    }
+
+    function closeFloatingWindow(windowName) {
+      if (showFloatingWindow.value === windowName) {
+        showFloatingWindow.value = null;
+      }
+    };
+
+    async function submitForm(windowName) {
+      if (windowName === 'Window1' && team.password !== confirmPassword.value) {
+        alert('密码不一致');
+        return;
+      }
+
+      const Info = {
+        team_name: team.teamname,
+        leader_name: team.username,
+        number: team.number,
+        password: team.password,
+        user_account: team.account,
+      };
+
+      try {
+        if (windowName === 'Window1') {
+          await unionService.createTeam(Info);
+        } else {
+          await unionService.joinTeam(Info);
+        }
+        
+        // 提交成功后的操作...
+      } catch (error) {
+        // 提交失败后的操作...
+      }
+    }
+
+    return {
+      toggleFloatingWindow,
+      closeFloatingWindow,
+      submitForm,
+      showFloatingWindow,
+      team,
+      confirmPassword
+    };
   },
 };
 </script>
 
 <style>
-
-
-.close-btn{
+.close-btn {
   position: absolute;
   right: 10px;
   top: 10px;
@@ -109,14 +129,14 @@ export default {
 
 label {
   display: flex;
-  align-items: center;    /* 垂直居中对齐 */
-  justify-content: flex-start;    /* 左对齐 */
+  align-items: center;
+  justify-content: flex-start;
   width: 100px;
   margin-right: 10px;
 }
 
-.button {
-  background-color: #b97c7c; 
+button {
+  background-color: #b97c7c;
   border: none;
   color: rgb(41, 203, 149);
   padding: 16px 32px;
@@ -125,7 +145,7 @@ label {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   cursor: pointer;
 }
@@ -138,7 +158,7 @@ label {
   height: 500px;
   padding: 50px;
   box-sizing: border-box;
-  position:fixed;
+  position: fixed;
   left: 700px;
   top: 100px;
   background-color: #a9cdff;
@@ -148,40 +168,40 @@ label {
   opacity: 0.7;
 }
 
-.floating-btn1{
+.floating-btn1 {
   position: fixed;
   bottom: 400px;
   left: 90px;
   z-index: 1000;
-  background-color: white; /* Green */
+  background-color: white;
   color: black;
-  -webkit-transition-duration: 0.5s; /* Safari */
+  -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
   opacity: 0.7;
 }
-.floating-btn1:hover{
+.floating-btn1:hover {
   background-color: #7fb1f6;
   color: white;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
-.floating-btn2{
+.floating-btn2 {
   position: fixed;
   bottom: 400px;
   left: 220px;
   z-index: 1000;
-  background-color: white; /* Green */
+  background-color: white;
   color: black;
-  -webkit-transition-duration: 0.5s; /* Safari */
+  -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
   opacity: 0.7;
 }
-.floating-btn2:hover{
+.floating-btn2:hover {
   background-color: #7fb1f6;
   color: white;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
-.closebtn{
+.closebtn {
   position: relative;
   top: -10px;
   right: -10px;
