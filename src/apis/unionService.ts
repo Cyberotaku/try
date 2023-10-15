@@ -62,8 +62,6 @@ export default class service{
 
     static async signUp(data:{
         team_name:string,
-        password:string,
-        user_account:string,
         }):Promise<any> {
         return request({
             "headers":{

@@ -26,8 +26,9 @@ import unionService from '../apis/unionService.ts';
 
 export default {
   setup() {
-    const team = useTeamStore.useTeamStore();
-    const tableData = team.members;
+    const teamStore = useTeamStore('useTeamStore');
+    const members = teamStore.members;
+    const tableData = members;
     const tableStyle = {
       width: '500px',
       height: '360px',
@@ -79,53 +80,3 @@ export default {
   cursor: pointer;
 }
 </style>
-
-
-
-<!-- <template>
-  <div class="member">
-    <el-table :data="tableData" stripe style="width: 10%; height: 10%" class="member">
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
-  </div>
- </template>
- 
- <script lang="ts">
- const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
- ]
- </script>
- 
- <style scoped>
- 
- .member {
-  z-index: 1000;
-  position: absolute;
-  right: 100px;
-  top: 100px;
-  transform: translate(-50%, -50%);
-  background-color: #1f46c7; 
- }
- 
- </style> -->

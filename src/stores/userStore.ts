@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {reactive} from "vue";
 import {userInfo} from "../types/personalInfo.ts";
 
-const userStore = defineStore(
+export const userStore = defineStore(
 	"user",
 	() => {
 		const userSession = reactive({
@@ -32,5 +32,3 @@ const userStore = defineStore(
 		persist: true
 	}
 );
-
-export default userStore;

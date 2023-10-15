@@ -59,7 +59,8 @@
 import { ref } from 'vue';
 import {useTeamStore} from '../stores/teamStore.ts';
 import unionService from '../apis/unionService.ts';
-
+import {userStore} from '../stores/userStore.ts';
+const username = userStore.userSession?.username ?? '';
 export default {
   setup() {
     const showFloatingWindow = ref(null);

@@ -12,7 +12,7 @@ export default class userService {
 				"Content-Type": "application/json",
 			},
 			method: "post",
-			url: "/api/login",
+			url: "login",
 			data: database
 		});
 	}
@@ -23,7 +23,7 @@ export default class userService {
 				"Content-Type": "application/json",
 			},
 			method: "post",
-			url: "/api/register",
+			url: "register",
 			data: database
 		});
 	};
@@ -33,7 +33,7 @@ export default class userService {
 				"Content-Type": "application/json",
 			},
 			method: "post",
-			url: "/api/personalinformation",
+			url: "personalinformation",
 			data: database
 		});
 	}

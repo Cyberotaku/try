@@ -8,7 +8,7 @@
 <script>
 import axios from 'axios'
 import {useTeamStore} from '@/stores/teamStore'
-import signUp from '../apis/signUp.ts'
+import unionService from '@/apis/unionService'
 export default {
     setup(){
         const teamstore = useTeamStore();

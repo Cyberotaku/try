@@ -37,7 +37,7 @@
 
 
 <script lang="ts" setup>
- import userStore from "../stores/userStore.ts";
+ import {userStore} from "../stores/userStore.ts";
  import { reactive,  ref  } from "vue";
  import {Edit, Check} from "@element-plus/icons-vue";
  import axios from "axios";
